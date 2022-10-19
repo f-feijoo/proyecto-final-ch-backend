@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("templates/head") %>
+  <body>
+    <%- include("templates/navbar") %>
+    <div class="container mt-5 overflow-auto text-center">
+      <br />
+      <br />
+      <h1>Bienvenido a Mi Tienda</h1>
+      <br />
+      <br />
+      <p>
+        Para realizar una compra, primero cree un carrito con el boton en la
+        parte inferior de la pagina.
+      </p>
+      <br />
+      <br />
+      <p>
+        Luego proceda a la seccion #Productos donde encontrara los productos
+        disponibles para comprar.
+      </p>
+      <br />
+      <br />
+      <p>
+        Una vez finalizada la eleccion de los productos, dirigirse a la seccion
+        #Carrito donde encontrara un resumen y el boton de compra.
+      </p>
+      <br />
+      <br />
+      <p>Desde ya muchas gracias!</p>
+    </div>
+    <br />
+    <br />
+    <div class="container mt-5 d-grid gap-2">
+      <form
+        class="d-grid gap-2"
+        onsubmit="return sendPostCarrito('/api/carritos').then(result => {alert(result.message)}).then(document.location.href='/')"
+      >
+        <button type="submit" class="btn btn-primary" name="crear">
+          Crear carrito
+        </button>
+      </form>
+    </div>
+    <br />
+    <br />
+  </body>
+</html>
