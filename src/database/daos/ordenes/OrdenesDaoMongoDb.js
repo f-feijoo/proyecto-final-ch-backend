@@ -7,9 +7,11 @@ class OrdenesDaoMongoDb extends ContenedorMongoDb {
       numero: { type: Number, required: true },
       timestamp: { type: String, required: true },
       usuario: { type: String, required: true },
-      estado: { type: Boolean, required: true },
+      estado: { type: String, required: true },
     });
   }
 }
 
-export default OrdenesDaoMongoDb;
+let Ordenes = new OrdenesDaoMongoDb();
+
+export default Ordenes;

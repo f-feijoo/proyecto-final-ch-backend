@@ -11,4 +11,6 @@ class MensajesDaoMongoDb extends ContenedorMongoDb {
   }
 }
 
-export default MensajesDaoMongoDb;
+let Mensajes = new MensajesDaoMongoDb();
+
+export default Mensajes;

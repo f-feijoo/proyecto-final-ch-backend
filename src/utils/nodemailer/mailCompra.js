@@ -12,6 +12,7 @@ export default async (user, carrito) => {
         <td>${x.nombre}</td>
         <td>${x.desc}</td>
         <td>$${x.precio}</td>
+        <td>$${x.cantidad}</td>
         <td><img src=${x.img} width="40"
             height="40" alt="..."></td>
         </tr>

@@ -7,7 +7,6 @@ const usuarioService = new UsuarioService();
 export const info = async (req, res) => {
   let carrito = await carritoService.mostrarCarrito({
     usuario: req.user.username,
-    finalizado: false,
   });
   let param;
   if (carrito) {

@@ -6,8 +6,7 @@ class CarritosDaoMongoDb extends ContenedorMongoDb {
       productos: { type: [], required: true },
       timestamp: { type: String, required: true },
       usuario: { type: String, required: true },
-      finalizado: { type: Boolean, required: true },
-      direccion: { type: String, required: true }
+      direccion: { type: String, required: true },
     });
   }
 

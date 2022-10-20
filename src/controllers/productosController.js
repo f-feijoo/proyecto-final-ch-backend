@@ -14,7 +14,6 @@ export const mostrarProductos = async (req, res) => {
   } else {
     let carrito = await carritoService.mostrarCarrito({
       usuario: req.user.username,
-      finalizado: false,
     });
     let param;
     if (carrito) {
@@ -88,7 +87,6 @@ export const eliminarProducto = async (req, res) => {
 export const mostrarProductoCategoria = async (req, res) => {
   let carrito = await carritoService.mostrarCarrito({
     usuario: req.user.username,
-    finalizado: false,
   });
   let param;
   if (carrito) {

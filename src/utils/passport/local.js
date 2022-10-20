@@ -2,8 +2,10 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import {UsuarioService} from "../../services/usuarioService.js";
 import sendMail from "../nodemailer/mailRegistro.js";
+import { CarritoService } from "../../services/carritoService.js";
 
 const usuarioService = new UsuarioService();
+const carritoService = new CarritoService();
 
 const LocalStrategy = Strategy;
 
@@ -60,6 +62,13 @@ passport.use(
       if (!usuarioService.compararContraseña(usuarioBD.password, password)) {
         return done(null, false);
       }
+      let obj = {
+        timestamp: Date.now(),
+        productos: [],
+        usuario: usuarioBD.username,
+        direccion: usuarioBD.direccion,
+      };
+      await carritoService.crearCarrito(obj);
       return done(null, usuarioBD);
     }
   )

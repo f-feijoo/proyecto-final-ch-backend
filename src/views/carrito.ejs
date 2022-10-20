@@ -15,8 +15,9 @@
                 <thead>
                     <tr>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Precio</th>
                         <th scope="col">Imagen</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Cantidad</th>
                         <th scope="col">Eliminar</th>
                     </tr>
                 </thead>
@@ -26,6 +27,7 @@
                     <th scope="row"><%= x.nombre %></th>                    
                     <td><img src=<%= x.img %> class="img-fluid" alt="..."></td>
                     <td>$<%= x.precio %></td>
+                    <td><%= x.cantidad %></td>
                     <td><form onsubmit="return deleteProd('/api/carritos/<%= idCarrito %>/productos/<%= x.id %>').then(result => {alert(result.message)}).then(document.location.href='/api/productos')">
                         <button class="btn btn-success" name="eliminar">X</button>
                     </form></td>
@@ -35,6 +37,7 @@
                         <th scope="row">Precio total:</th>
                         <td></td>
                         <td>$<%= precioTotal  %></td>
+                        <td></td>
                         <td><form onsubmit="return deleteCarrito('/api/carritos/<%= idCarrito %>').then(result => {alert(result.message)}).then(document.location.href='/')">
                             <button type="submit" class="btn btn-danger">Eliminar carrito</button>
                           </form></td>                       

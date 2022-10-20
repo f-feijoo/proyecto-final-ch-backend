@@ -15,6 +15,7 @@ import registro from "./routes/registro.js";
 import logout from "./routes/logout.js";
 import errors from "./routes/error.js";
 import info from "./routes/info.js";
+import mensajesRouter from "./routes/mensajes.js";
 
 import session from "express-session";
 import passport from "passport";
@@ -46,6 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api/productos", productosRouter);
 app.use("/api/carritos", carritoRouter);
+app.use("/chat", mensajesRouter);
 app.use("/", index);
 app.use("/login", login);
 app.use("/logout", logout);

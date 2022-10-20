@@ -13,10 +13,9 @@ export class CarritoService {
     return await this.carrito.actualizar(carrito);
   }
 
-  async finalizarCarrito(carrito) {
+  async actualizarCarrito(carrito) {
     return await this.carrito.actualizar({
-      ...carrito,
-      finalizado: true,
+      ...carrito
     });
   }
 

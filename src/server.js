@@ -4,6 +4,12 @@ import cluster from "cluster";
 import os from "os";
 import log4js from "./utils/loggers/config.js";
 
+import http from "http";
+import sockets from "./utils/socketMensajes/socketMensajes.js";
+import { Server } from "socket.io";
+const server = http.createServer(app);
+const io = new Server(server);
+
 const loggerConsole = log4js.getLogger();
 
 const MODO_CLUSTER = process.env.MODO === "CLUSTER";
@@ -19,7 +25,8 @@ if (MODO_CLUSTER && cluster.isPrimary) {
     cluster.fork();
   }
 } else {
-  const server = app.listen(PORT, () => {
+  sockets(io);
+  server.listen(PORT, () => {
     loggerConsole.info(
       `Servidor http escuchando en el puerto ${PORT}, process ID: ${process.pid}`
     );

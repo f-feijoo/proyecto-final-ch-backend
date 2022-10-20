@@ -1,12 +1,14 @@
 import { CarritoService } from "../services/carritoService.js";
-import { ProductoService } from "../services/productoService.js";
 import { UsuarioService } from "../services/usuarioService.js";
 
 const carritoService = new CarritoService();
-const productoService = new ProductoService();
 const usuarioService = new UsuarioService();
 
-export const index = async (req, res) => {
+export const mostrarMensajesUsuario = async (req, res) => {
+  res.render("mensajes");
+};
+
+export const mostrarTodosMensajes = async (req, res) => {
   let carrito = await carritoService.mostrarCarrito({
     usuario: req.user.username,
   });
@@ -16,8 +18,7 @@ export const index = async (req, res) => {
   } else {
     param = "#";
   }
-  res.render("index", {
-    data: await productoService.mostrarTodosProductos(),
+  res.render("mensajes", {
     nroC: param,
     user: await usuarioService.mostrarUsuario({ username: req.user.username }),
   });
