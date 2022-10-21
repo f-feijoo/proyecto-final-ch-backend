@@ -33,10 +33,8 @@ export const agregarProducto = async (req, res) => {
   const indexProducto = carrito.productos.findIndex(
     (elem) => elem.id === producto.id
   );
-  console.log(indexProducto);
   if (indexProducto >= 0) {
     carrito.productos[indexProducto].cantidad += 1;
-    console.log(carrito);
     await carritoService.actualizarCarrito(carrito);
   } else {
     const productoNuevo = { ...producto, cantidad: 1 };
@@ -48,9 +46,10 @@ export const agregarProducto = async (req, res) => {
 export const finalizarCarrito = async (req, res) => {
   const carrito = await carritoService.mostrarCarrito({ _id: req.params.id });
   await carritoService.eliminarCarrito(req.params.id);
+  const ordenesNumero = await ordenesService.mostrarOrden()
   const orden = {
     productos: carrito.productos,
-    numero: ordenesService.mostrarOrden().length(),
+    numero: ordenesNumero.length,
     timestamp: moment().format("DD/MM/YYYY HH:mm:ss"),
     usuario: req.user.username,
     estado: "generada",
@@ -59,11 +58,16 @@ export const finalizarCarrito = async (req, res) => {
   await mailCompraAdmin(req.user, orden);
   await mensajeCliente(req.user);
   await mensajeCompraAdmin(orden);
+  let precioTotal = 0;
+  for (const prod of carrito.productos) {
+    precioTotal += prod.precio * prod.cantidad;
+  }
   res.render("comprado", {
-    data: carrito,
+    data: orden,
     nroC: "/api/carritos/" + req.params.id + "/productos",
     idCarrito: req.params.id,
     user: req.user,
+    precioTotal : precioTotal
   });
 };
 

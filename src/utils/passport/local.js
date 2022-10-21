@@ -32,7 +32,7 @@ passport.use(
       }
       const usuarioNuevo = await usuarioService.guardarUsuario({
         username: username,
-        password: usuarioService.encriptarContraseña(password),
+        password: await usuarioService.encriptarContraseña(password),
         nombre: req.body.nombre,
         direccion: req.body.direccion,
         edad: req.body.edad,

@@ -8,8 +8,7 @@ export default async (user, carrito) => {
     .map((x) => {
       return `
         <tr>
-        <th scope="row">${x.id}</th>
-        <td>${x.nombre}</td>
+        <th scope="row">${x.nombre}</th>
         <td>${x.desc}</td>
         <td>$${x.precio}</td>
         <td>$${x.cantidad}</td>
