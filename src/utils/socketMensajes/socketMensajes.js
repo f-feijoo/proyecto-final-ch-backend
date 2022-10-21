@@ -5,9 +5,9 @@ const mensajesService = new MensajesService();
 
 export default (io) => {
   io.on("connection", async (socket) => {
-    socket.emit("mensajes", await mensajesService.mostrarTodos());
+    const mensajes = await mensajesService.mostrarTodos()
+    socket.emit("mensajes", (mensajes));
     socket.on("dataMsn", async (x) => {
-      console.log(x)
       const { email, texto, tipo } = x;
       let newMen = {
         email: email,
@@ -16,7 +16,8 @@ export default (io) => {
         timestamp: moment().format("DD/MM/YYYY hh:mm:ss"),
       };
       await await mensajesService.guardarMensajes(newMen);
-      io.sockets.emit("mensajes", await mensajesService.mostrarTodos());
+      const chat = await mensajesService.mostrarTodos()
+      io.sockets.emit("mensajes", chat);
     });
   });
 };

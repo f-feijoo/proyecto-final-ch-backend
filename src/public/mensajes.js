@@ -5,17 +5,34 @@ socket.on("mensajes", (data) => {
 });
 
 const renderMs = (data) => {
-  let html = data.mensajes
-    .map((x) => {
-      return `
+  const emailURL = document.URL.split('/')
+  if (document.URL.endsWith("chat") || document.URL.endsWith("chat/")) {
+    let html = data
+      .map((x) => {
+        return `
           <div>
-              <p style="color: brown;">${x.tipo}<strong class="text-primary">${x.email}</strong> [${x.timestamp}] <i class="text-success">${x.texto}</i></p>
+              <p style="color: brown;">${x.tipo} - <strong class="text-primary">${x.email}</strong> [${x.timestamp}] <i class="text-success">${x.texto}</i></p>
           </div>
           `;
-    })
-    .join(" ");
+      })
+      .join(" ");
 
-  document.querySelector("#c-mensajes").innerHTML = html;
+    document.querySelector("#c-mensajes").innerHTML = html;
+  } else {
+    const user = emailURL[emailURL.length - 1]
+    let html = data
+      .filter(x=> x.email == user)
+      .map((x) => {
+        return `
+          <div>
+              <p style="color: brown;">${x.tipo} - <strong class="text-primary">${x.email}</strong> [${x.timestamp}] <i class="text-success">${x.texto}</i></p>
+          </div>
+          `;
+      })
+      .join(" ");
+
+    document.querySelector("#c-mensajes").innerHTML = html;
+  }
 };
 
 const addMessage = () => {
@@ -25,6 +42,6 @@ const addMessage = () => {
     texto: document.querySelector("#text").value,
   };
   document.querySelector("#text").value = "";
-  socket.emit("Msn", msObj);
+  socket.emit("dataMsn", msObj);
   return false;
 };
