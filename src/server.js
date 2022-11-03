@@ -6,6 +6,9 @@ import log4js from "./utils/loggers/config.js";
 
 const PORT = process.env.PORT || 8080;
 
+import { setupMaster, setupWorker } from "@socket.io/sticky";
+import { setupPrimary, createAdapter } from "@socket.io/cluster-adapter";
+
 import http from "http";
 import sockets from "./utils/socketMensajes/socketMensajes.js";
 import { Server } from "socket.io";
@@ -15,6 +18,18 @@ const loggerConsole = log4js.getLogger();
 const MODO_CLUSTER = process.env.MODO === "CLUSTER";
 
 if (MODO_CLUSTER && cluster.isPrimary) {
+  const httpServer = http.createServer();
+
+  setupMaster(httpServer, {
+    loadBalancingMethod: "least-connection",
+  });
+
+  setupPrimary();
+
+  cluster.setupMaster({
+    serialization: "advanced",
+  });
+
   const cpus = os.cpus().length;
   loggerConsole.info(
     `Primary PID ${process.pid}, port ${PORT}, modo ${process.env.MODO},  base de datos: ${process.env.PERS}`
@@ -25,6 +40,8 @@ if (MODO_CLUSTER && cluster.isPrimary) {
 } else {
   const server = http.createServer(app);
   const io = new Server(server);
+  io.adapter(createAdapter())
+  setupWorker(io)
   sockets(io);
   server.listen(PORT, () => {
     loggerConsole.info(
