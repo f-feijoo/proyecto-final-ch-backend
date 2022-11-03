@@ -9,8 +9,6 @@ const PORT = process.env.PORT || 8080;
 import http from "http";
 import sockets from "./utils/socketMensajes/socketMensajes.js";
 import { Server } from "socket.io";
-const server = http.createServer(app);
-const io = new Server(server).listen(PORT);
 
 const loggerConsole = log4js.getLogger();
 
@@ -25,6 +23,8 @@ if (MODO_CLUSTER && cluster.isPrimary) {
     cluster.fork();
   }
 } else {
+  const server = http.createServer(app);
+  const io = new Server(server);
   sockets(io);
   server.listen(PORT, () => {
     loggerConsole.info(
