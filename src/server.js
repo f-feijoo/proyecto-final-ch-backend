@@ -4,17 +4,17 @@ import cluster from "cluster";
 import os from "os";
 import log4js from "./utils/loggers/config.js";
 
+const PORT = process.env.PORT || 8080;
+
 import http from "http";
 import sockets from "./utils/socketMensajes/socketMensajes.js";
 import { Server } from "socket.io";
 const server = http.createServer(app);
-const io = new Server(server).listen(server);
+const io = new Server(server).listen(PORT);
 
 const loggerConsole = log4js.getLogger();
 
 const MODO_CLUSTER = process.env.MODO === "CLUSTER";
-
-const PORT = process.env.PORT || 8080;
 
 if (MODO_CLUSTER && cluster.isPrimary) {
   const cpus = os.cpus().length;
