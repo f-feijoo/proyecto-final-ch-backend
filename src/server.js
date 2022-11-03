@@ -8,7 +8,7 @@ import http from "http";
 import sockets from "./utils/socketMensajes/socketMensajes.js";
 import { Server } from "socket.io";
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server).listen(server);
 
 const loggerConsole = log4js.getLogger();
 
